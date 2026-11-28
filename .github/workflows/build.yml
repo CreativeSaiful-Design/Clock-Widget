@@ -8,7 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q ClockWidget-GitHub.zip -d proj
+        with:
+          fetch-depth: 0
+      - name: সর্বশেষ আপলোড করা ZIP খোলা
+        run: |
+          f=$(git log --diff-filter=AM --name-only --pretty=format: -- '*.zip' | grep -m1 .)
+          echo "Using: $f"
+          unzip -q "$f" -d proj
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
